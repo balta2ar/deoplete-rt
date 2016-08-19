@@ -10,13 +10,13 @@ a cache file.
 from .base import Base
 
 #import re
-from os import expanduser
+from os.path import expanduser, expandvars
 import regex as re
 from time import strftime, time
 from pprint import pformat
 
 #CANDIDATES_FILENAME = '/tmp/rt.candidates.txt'
-CANDIDATES_FILENAME = '~/.cache/rt/rt.candidates.txt'
+CANDIDATES_FILENAME = expandvars(expanduser('~/.cache/rt/rt.candidates.txt'))
 RT_PATTERN = r'RT:?\w*$'
 RX_RT = re.compile(RT_PATTERN, re.IGNORECASE)
 
