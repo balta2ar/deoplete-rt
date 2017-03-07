@@ -62,6 +62,15 @@ def read_candidates(filename):
         return candidates
 
 
+def modify_condidates(candidates):
+    result = []
+    for candidate in candidates:
+        parts = candidate.split()
+        line = parts[0:1] + parts[2:]
+        result.append(' '.join(line))
+    return result
+
+
 class Source(Base):
     def __init__(self, vim):
         Base.__init__(self, vim)
@@ -102,6 +111,7 @@ class Source(Base):
 
         # Read candidates, cut off http part and fuzzy match by long description
         candidates_from_file = read_candidates(CANDIDATES_FILENAME)
+        candidates_from_file = modify_condidates(candidates_from_file)
         candidates_without_http = []
         for candidate in candidates_from_file:
             pos = candidate.find(' http')
