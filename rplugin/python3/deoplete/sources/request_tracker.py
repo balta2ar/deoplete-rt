@@ -10,6 +10,7 @@ a cache file.
 from .base import Base
 
 #import re
+import os
 from os.path import expanduser, expandvars
 import regex as re
 from time import strftime, time
@@ -34,7 +35,8 @@ def measure(func):
 
 
 def log(msg):
-    return
+    if os.environ.get('NVIM_PYTHON_LOG_LEVEL', None) != 'DEBUG':
+        return
     timestamp = strftime("%Y-%m-%d %H:%M:%S")
     with open('/tmp/rt.completer.log', 'a+') as file_object:
         file_object.write('%s ' % timestamp + msg + '\n')
@@ -149,7 +151,7 @@ class Source(Base):
         self.max_abbr_width = 120
         self.input_pattern = RT_PATTERN
 
-        self.mymatcher = MyMatcher(prefixes=['RT', 'RT:'])
+        self.mymatcher = MyMatcher(prefixes=['RT:', 'RT'])
         log('CONSTRUCTOR %s' % self.input_pattern)
 
     def get_complete_position(self, context):
