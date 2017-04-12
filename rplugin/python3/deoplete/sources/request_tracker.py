@@ -22,6 +22,9 @@ load_external_module(current, 'sources/deoplete_matcher')
 from matcher import MyMatcher, RT_PATTERN, CANDIDATES_FILENAME
 
 
+MAX_CANDIDATES = 10
+
+
 def measure(func):
 
     def deco(*args, **kwargs):
@@ -83,7 +86,7 @@ class Source(Base):
             prefix, filtered_candidates)
         log('GATHER CAND: ' + str(result))
         log('GATHER CAND COUNT: ' + str(len(result)))
-        return result
+        return result[:MAX_CANDIDATES]
 
     @measure
     def on_post_filter(self, context):
@@ -98,4 +101,4 @@ class Source(Base):
                 complete_str, candidates)
         log('POST FILTER RESULT: ' + pformat(context))
         log('POST FILTER RESULT LEN: ' + str(len(context)))
-        return result
+        return result[:MAX_CANDIDATES]
